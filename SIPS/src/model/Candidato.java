@@ -1,7 +1,5 @@
 package model;
 
-import javax.swing.JOptionPane;
-
 public class Candidato {
   private String nome;
   private String cpf;
@@ -37,11 +35,11 @@ public class Candidato {
     this.cpf = cpf;
   }
 
-  public int getDataNascimento() {
+  public int getAnoNascimento() {
     return anoNascimento;
   }
 
-  public void setDataNascimento(int anoNascimento) {
+  public void setAnoNascimento(int anoNascimento) {
     this.anoNascimento = anoNascimento;
   }
 

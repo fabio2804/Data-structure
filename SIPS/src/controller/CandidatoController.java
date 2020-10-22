@@ -1,10 +1,12 @@
 package controller;
 
+import interfaces.CandidatoInterface;
 import model.Candidato;
 
 import javax.swing.JOptionPane;
 
-public class CandidatoController {
+public class CandidatoController implements CandidatoInterface {
+  @Override
   public Candidato criarCandidato() {
     String nome = null;
     String cpf = null;
@@ -19,5 +21,10 @@ public class CandidatoController {
     }
 
     return new Candidato(nome, cpf, anoNascimento);
+  }
+
+  @Override
+  public void gerarNotas() {
+
   }
 }

@@ -23,4 +23,10 @@ public class EditalController implements EditalInterface {
 
     return new Edital(faculdade, curso, qtdVagas);
   }
+
+  @Override
+  public boolean verificarEditalVazio(Edital edital) {
+    return edital == null;
+  }
+
 }

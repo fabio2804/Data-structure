@@ -9,9 +9,9 @@ public interface ListaInterface {
 
   void removerPorCpf(String cpf);
 
-  void mostrarLista();
+  Candidato mostrarLista(Candidato aux);
 
-  void mostrarCandidatosAprovados();
+  Candidato mostrarCandidatosAprovados(Candidato aux, int cont, int vagas);
 
   void ordenarPorNome();
 
