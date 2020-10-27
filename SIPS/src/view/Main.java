@@ -22,7 +22,7 @@ public class Main {
                 JOptionPane.showInputDialog(
                         "Menu de opções\n1- Criar edital\n2- Criar candidato\n3- Verificar " +
                                 "lista vazia\n4- Remover candidato por CPF\n5- Ordenar lista de candidatos por nome\n6- " +
-                                "Ordenar lista de candidatos por nota\n7- Mostrar lista\n8- Mostrar aprovados\n0- Finalizar " +
+                                "Ordenar lista de candidatos por nota\n7- Mostrar lista\n8- Mostrar aprovados\n9- Gerar notas\n0- Finalizar " +
                                 "programa"));
 
         switch (opc) {
@@ -62,7 +62,7 @@ public class Main {
             break;
 
           case 6:
-            listaController.ordenarPorNota();
+            listaController.ordenarPorNota(edital, listaController, listaController.getInicio());
             JOptionPane.showMessageDialog(null, "Lista de candidato ordenado por nota.");
             break;
 
@@ -80,6 +80,11 @@ public class Main {
 
             listaController.mostrarCandidatosAprovados(listaController.getInicio(), 0,
                     edital.getQtdVagas());
+            break;
+
+          case 9:
+            candidatoController.gerarNotas(listaController.getInicio());
+            JOptionPane.showMessageDialog(null, "As notas dos candidatos foram geradas!");
             break;
 
           case 0:

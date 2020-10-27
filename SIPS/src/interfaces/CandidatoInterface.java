@@ -5,5 +5,5 @@ import model.Candidato;
 public interface CandidatoInterface {
   Candidato criarCandidato();
 
-  void gerarNotas();
+  Candidato gerarNotas(Candidato aux);
 }

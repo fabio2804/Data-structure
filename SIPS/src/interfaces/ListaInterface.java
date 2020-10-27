@@ -1,6 +1,8 @@
 package interfaces;
 
+import controller.ListaController;
 import model.Candidato;
+import model.Edital;
 
 public interface ListaInterface {
   boolean verificarVazia();
@@ -15,6 +17,6 @@ public interface ListaInterface {
 
   void ordenarPorNome();
 
-  void ordenarPorNota();
+  Candidato ordenarPorNota(Edital edital, ListaController lista, Candidato aux);
 
 }

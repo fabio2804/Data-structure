@@ -2,6 +2,11 @@ package controller;
 
 import interfaces.ListaInterface;
 import model.Candidato;
+import model.Edital;
+
+import javax.swing.text.MaskFormatter;
+import java.text.DecimalFormat;
+import java.text.ParseException;
 
 public class ListaController implements ListaInterface {
   private Candidato inicio;
@@ -44,8 +49,18 @@ public class ListaController implements ListaInterface {
       return null;
     }
 
-    System.out.println("   { Nome: " + aux.getNome() + ", CPF: " + aux.getCpf() + ", Ano de nascimento: " +
-            aux.getAnoNascimento() + ", Nota: " + aux.getNota() + " } ");
+    String notaFormatada = new DecimalFormat("##.##").format(aux.getNota());
+
+    String cpfFormatado = null;
+
+    try {
+      cpfFormatado = formatarString(aux.getCpf(), "###.###.###-##");
+    } catch (ParseException e) {
+      e.printStackTrace();
+    }
+
+    System.out.println("   { Nome: " + aux.getNome() + ", CPF: " + cpfFormatado + ", Ano de nascimento: " +
+            aux.getAnoNascimento() + ", Nota: " + notaFormatada + " } ");
 
     if (aux.getProx() == null) {
       return null;
@@ -65,9 +80,19 @@ public class ListaController implements ListaInterface {
       return null;
     }
 
+    String notaFormatada = new DecimalFormat("##.##").format(aux.getNota());
+
+    String cpfFormatado = null;
+
+    try {
+      cpfFormatado = formatarString(aux.getCpf(), "###.###.###-##");
+    } catch (ParseException e) {
+      e.printStackTrace();
+    }
+
     if (cont <= vagas) {
-      System.out.println("   { Nome: " + aux.getNome() + ", CPF: " + aux.getCpf() + ", Ano de nascimento: " +
-              aux.getAnoNascimento() + ", Nota: " + aux.getNota() + " } ");
+      System.out.println("   { Nome: " + aux.getNome() + ", CPF: " + cpfFormatado + ", Ano de nascimento: " +
+              aux.getAnoNascimento() + ", Nota: " + notaFormatada + " } ");
       cont++;
     }
 
@@ -80,8 +105,14 @@ public class ListaController implements ListaInterface {
   }
 
   @Override
-  public void ordenarPorNota() {
+  public Candidato ordenarPorNota(Edital edital, ListaController lista, Candidato aux) {
+    return aux;
+  }
 
+  public static String formatarString(String texto, String mascara) throws ParseException {
+    MaskFormatter mf = new MaskFormatter(mascara);
+    mf.setValueContainsLiteralCharacters(false);
+    return mf.valueToString(texto);
   }
 
   public Candidato getInicio() {
