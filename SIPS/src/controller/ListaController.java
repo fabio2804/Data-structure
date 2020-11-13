@@ -38,8 +38,41 @@ public class ListaController implements ListaInterface {
   }
 
   @Override
-  public void removerPorCpf(String cpf) {
+  public void removerPorCpf(String cpf, Candidato candidatoAux) {
+    if (verificarVazia()) {
+      System.out.println("A lista está vazia!");
+      return;
+    }
 
+    if (candidatoAux.getCpf().equals(cpf)) {
+      if (qtdElementos == 1) {
+        inicio = null;
+        fim = null;
+        qtdElementos--;
+        return;
+      }
+
+      if (candidatoAux.getAnterior() != null && candidatoAux.getProx() == null) {
+        candidatoAux.getAnterior().setProx(null);
+        fim = candidatoAux.getAnterior();
+        qtdElementos--;
+        return;
+      }
+
+      if (candidatoAux.getAnterior() == null && candidatoAux.getProx() != null) {
+        candidatoAux.getProx().setAnterior(null);
+        inicio = candidatoAux.getProx();
+        qtdElementos--;
+        return;
+      }
+
+      candidatoAux.getAnterior().setProx(candidatoAux.getProx());
+      candidatoAux.getProx().setAnterior(candidatoAux.getAnterior());
+      qtdElementos--;
+      return;
+    }
+
+    removerPorCpf(cpf, candidatoAux.getProx());
   }
 
   @Override
@@ -101,7 +134,6 @@ public class ListaController implements ListaInterface {
 
   @Override
   public void ordenarPorNome() {
-
   }
 
   @Override

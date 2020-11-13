@@ -51,7 +51,7 @@ public class Main {
 
           case 4:
             String cpf = JOptionPane.showInputDialog("Digite o CPF a ser removido:");
-            listaController.removerPorCpf(cpf);
+            listaController.removerPorCpf(cpf, listaController.getInicio());
             JOptionPane.showMessageDialog(null,
                     "O candidato do CPF: " + cpf + " foi removido da lista.");
             break;

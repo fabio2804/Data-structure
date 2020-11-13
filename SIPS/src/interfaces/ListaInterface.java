@@ -9,7 +9,7 @@ public interface ListaInterface {
 
   void adicionarFinal(Candidato candidato);
 
-  void removerPorCpf(String cpf);
+  void removerPorCpf(String cpf, Candidato candidatoAux);
 
   Candidato mostrarLista(Candidato aux);
 
