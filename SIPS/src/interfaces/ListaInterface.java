@@ -19,4 +19,6 @@ public interface ListaInterface {
 
   Candidato ordenarPorNota(Edital edital, ListaController lista, Candidato aux);
 
+  Boolean cpfJaExiste(String cpf, ListaController listaController);
+
 }

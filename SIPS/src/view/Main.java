@@ -39,6 +39,14 @@ public class Main {
             }
 
             Candidato novoCandidato = candidatoController.criarCandidato();
+
+            if (novoCandidato == null) break;
+
+            if (listaController.cpfJaExiste(novoCandidato.getCpf(), listaController)) {
+              JOptionPane.showMessageDialog(null, "Candidato com este CPF já cadastrado!");
+              break;
+            }
+
             listaController.adicionarFinal(novoCandidato);
             JOptionPane.showMessageDialog(null, "Candidato adicionado à lista.");
             break;

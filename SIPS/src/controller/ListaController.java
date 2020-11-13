@@ -141,6 +141,19 @@ public class ListaController implements ListaInterface {
     return aux;
   }
 
+  @Override
+  public Boolean cpfJaExiste(String cpf, ListaController lista) {
+    Candidato candidatoAux = lista.getInicio();
+
+    while (candidatoAux != null) {
+      if (candidatoAux.getCpf().equals(cpf)) return true;
+
+      candidatoAux = candidatoAux.getProx();
+    }
+
+    return false;
+  }
+
   public static String formatarString(String texto, String mascara) throws ParseException {
     MaskFormatter mf = new MaskFormatter(mascara);
     mf.setValueContainsLiteralCharacters(false);
@@ -151,24 +164,8 @@ public class ListaController implements ListaInterface {
     return inicio;
   }
 
-  public void setInicio(Candidato inicio) {
-    this.inicio = inicio;
-  }
-
   public Candidato getFim() {
     return fim;
-  }
-
-  public void setFim(Candidato fim) {
-    this.fim = fim;
-  }
-
-  public int getQtdElementos() {
-    return qtdElementos;
-  }
-
-  public void setQtdElementos(int qtdElementos) {
-    this.qtdElementos = qtdElementos;
   }
 
 }
