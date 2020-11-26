@@ -12,6 +12,7 @@ public class ListaController implements ListaInterface {
   private Candidato inicio;
   private Candidato fim;
   private int qtdElementos;
+  private Candidato[] arrayCandidatos;
 
   public ListaController() {
     this.inicio = null;
@@ -103,42 +104,88 @@ public class ListaController implements ListaInterface {
   }
 
   @Override
-  public Candidato mostrarCandidatosAprovados(Candidato aux, int cont, int vagas) {
+  public void mostrarCandidatosAprovados(Edital edital, ListaController lista, Candidato aux) {
     if (verificarVazia()) {
       System.out.println("Lista Vazia");
-      return null;
+      return;
     }
 
-    if (aux.getProx() == null) {
-      return null;
+    arrayCandidatos = new Candidato[qtdElementos];
+
+    for (int i = 0; i < qtdElementos; i++) {
+      arrayCandidatos[i] = aux;
+      aux = aux.getProx();
     }
 
-    String notaFormatada = new DecimalFormat("##.##").format(aux.getNota());
+    quicksort(0, arrayCandidatos.length - 1);
 
-    String cpfFormatado = null;
+    System.out.println("Lista de aprovados");
 
-    try {
-      cpfFormatado = formatarString(aux.getCpf(), "###.###.###-##");
-    } catch (ParseException e) {
-      e.printStackTrace();
+    for (int i = arrayCandidatos.length - 1; i > ((arrayCandidatos.length - 1) - edital.getQtdVagas()); i--) {
+      if (i < 0) return;
+
+      String notaFormatada = new DecimalFormat("##.##").format(arrayCandidatos[i].getNota());
+
+      String cpfFormatado = null;
+
+      try {
+        cpfFormatado = formatarString(arrayCandidatos[i].getCpf(), "###.###.###-##");
+      } catch (ParseException e) {
+        e.printStackTrace();
+      }
+
+      System.out.println(
+              "   { Nome: " + arrayCandidatos[i].getNome() + ", CPF: " + cpfFormatado +
+                      ", Ano de nascimento: " +
+                      arrayCandidatos[i].getAnoNascimento() + ", Nota: " + notaFormatada +
+                      " } ");
     }
 
-    if (cont <= vagas) {
-      System.out.println("   { Nome: " + aux.getNome() + ", CPF: " + cpfFormatado + ", Ano de nascimento: " +
-              aux.getAnoNascimento() + ", Nota: " + notaFormatada + " } ");
-      cont++;
-    }
 
-    return mostrarCandidatosAprovados(aux.getProx(), cont, vagas);
   }
 
   @Override
   public void ordenarPorNome() {
   }
 
-  @Override
-  public Candidato ordenarPorNota(Edital edital, ListaController lista, Candidato aux) {
-    return aux;
+  /**
+   * Método de particionamento que é o núcleo do algoritmo Quicksort.
+   * É a implementação utilizando o paradigma dividir para conquistar
+   */
+  int partition(int start, int end) {
+    int i = start;
+
+    for (int j = start; j < end; j++) {
+
+      /* Elemento atual menor ou igual ao pivô? */
+      if (arrayCandidatos[j].getNota() <= arrayCandidatos[end].getNota()) {
+        swap(i++, j);
+      }
+    }
+    swap(i, end);
+
+    return i;
+  }
+
+  /**
+   * Método para fazer a troca de dados entre duas posições no vetor
+   */
+  void swap(int i, int j) {
+    Candidato aux = arrayCandidatos[i];
+    arrayCandidatos[i] = arrayCandidatos[j];
+    arrayCandidatos[j] = aux;
+  }
+
+  /**
+   * Método privado que implementa o Quicksort recursivamente
+   */
+  void quicksort(int start, int end) {
+    if (start >= end) return;
+
+    int pivot = partition(start, end);
+
+    quicksort(start, pivot - 1);
+    quicksort(pivot + 1, end);
   }
 
   @Override
