@@ -9,14 +9,14 @@ public interface ListaInterface {
 
   void adicionarFinal(Candidato candidato);
 
-  void removerPorCpf(String cpf);
+  void removerPorCpf(String cpf, Candidato candidatoAux);
 
   Candidato mostrarLista(Candidato aux);
 
-  Candidato mostrarCandidatosAprovados(Candidato aux, int cont, int vagas);
+  void mostrarCandidatosAprovados(Edital edital, ListaController lista, Candidato aux);
 
   void ordenarPorNome();
 
-  Candidato ordenarPorNota(Edital edital, ListaController lista, Candidato aux);
+  Boolean cpfJaExiste(String cpf, ListaController listaController);
 
 }

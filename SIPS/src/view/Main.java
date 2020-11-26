@@ -22,7 +22,8 @@ public class Main {
                 JOptionPane.showInputDialog(
                         "Menu de opções\n1- Criar edital\n2- Criar candidato\n3- Verificar " +
                                 "lista vazia\n4- Remover candidato por CPF\n5- Ordenar lista de candidatos por nome\n6- " +
-                                "Ordenar lista de candidatos por nota\n7- Mostrar lista\n8- Mostrar aprovados\n9- Gerar notas\n0- Finalizar " +
+                                "Mostrar candidatos aprovados\n7- Mostrar lista\n8- \n9- Gerar " +
+                                "notas\n0- Finalizar " +
                                 "programa"));
 
         switch (opc) {
@@ -39,6 +40,14 @@ public class Main {
             }
 
             Candidato novoCandidato = candidatoController.criarCandidato();
+
+            if (novoCandidato == null) break;
+
+            if (listaController.cpfJaExiste(novoCandidato.getCpf(), listaController)) {
+              JOptionPane.showMessageDialog(null, "Candidato com este CPF já cadastrado!");
+              break;
+            }
+
             listaController.adicionarFinal(novoCandidato);
             JOptionPane.showMessageDialog(null, "Candidato adicionado à lista.");
             break;
@@ -51,7 +60,7 @@ public class Main {
 
           case 4:
             String cpf = JOptionPane.showInputDialog("Digite o CPF a ser removido:");
-            listaController.removerPorCpf(cpf);
+            listaController.removerPorCpf(cpf, listaController.getInicio());
             JOptionPane.showMessageDialog(null,
                     "O candidato do CPF: " + cpf + " foi removido da lista.");
             break;
@@ -62,24 +71,19 @@ public class Main {
             break;
 
           case 6:
-            listaController.ordenarPorNota(edital, listaController, listaController.getInicio());
-            JOptionPane.showMessageDialog(null, "Lista de candidato ordenado por nota.");
+            if (editalController.verificarEditalVazio(edital)) {
+              JOptionPane.showMessageDialog(null, "É necessário criar um edital primeiro!");
+              break;
+            }
+
+            listaController.mostrarCandidatosAprovados(edital, listaController, listaController.getInicio());
+            JOptionPane.showMessageDialog(null,"Candidatos aprovados no console");
             break;
 
           case 7:
             System.out.println("[");
             listaController.mostrarLista(listaController.getInicio());
             System.out.println("]");
-            break;
-
-          case 8:
-            if (editalController.verificarEditalVazio(edital)) {
-              JOptionPane.showMessageDialog(null, "É necessário criar um edital primeiro!");
-              break;
-            }
-
-            listaController.mostrarCandidatosAprovados(listaController.getInicio(), 0,
-                    edital.getQtdVagas());
             break;
 
           case 9:
