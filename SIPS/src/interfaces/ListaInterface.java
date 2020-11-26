@@ -15,7 +15,7 @@ public interface ListaInterface {
 
   void mostrarCandidatosAprovados(Edital edital, ListaController lista, Candidato aux);
 
-  void ordenarPorNome();
+  void MostrarCandidatosPorNome(Edital edital, ListaController lista, Candidato aux);
 
   Boolean cpfJaExiste(String cpf, ListaController listaController);
 

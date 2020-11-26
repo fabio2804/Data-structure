@@ -104,6 +104,19 @@ public class ListaController implements ListaInterface {
   }
 
   @Override
+  public Boolean cpfJaExiste(String cpf, ListaController lista) {
+    Candidato candidatoAux = lista.getInicio();
+
+    while (candidatoAux != null) {
+      if (candidatoAux.getCpf().equals(cpf)) return true;
+
+      candidatoAux = candidatoAux.getProx();
+    }
+
+    return false;
+  }
+
+  @Override
   public void mostrarCandidatosAprovados(Edital edital, ListaController lista, Candidato aux) {
     if (verificarVazia()) {
       System.out.println("Lista Vazia");
@@ -117,9 +130,52 @@ public class ListaController implements ListaInterface {
       aux = aux.getProx();
     }
 
-    quicksort(0, arrayCandidatos.length - 1);
+    quicksortNota(0, arrayCandidatos.length - 1);
 
     System.out.println("Lista de aprovados");
+
+    int pos = 1;
+
+    for (int i = arrayCandidatos.length - 1; i > ((arrayCandidatos.length - 1) - edital.getQtdVagas()); i--) {
+      if (i < 0) return;
+
+      String notaFormatada = new DecimalFormat("##.##").format(arrayCandidatos[i].getNota());
+
+      String cpfFormatado = null;
+
+      try {
+        cpfFormatado = formatarString(arrayCandidatos[i].getCpf(), "###.###.###-##");
+      } catch (ParseException e) {
+        e.printStackTrace();
+      }
+
+      System.out.println(
+              "   " + pos + "°  { Nome: " + arrayCandidatos[i].getNome() + ", CPF: " + cpfFormatado +
+                      ", Ano de nascimento: " +
+                      arrayCandidatos[i].getAnoNascimento() + ", Nota: " + notaFormatada +
+                      " } ");
+
+      pos++;
+    }
+  }
+
+  @Override
+  public void MostrarCandidatosPorNome(Edital edital, ListaController lista, Candidato aux) {
+    if (verificarVazia()) {
+      System.out.println("Lista Vazia");
+      return;
+    }
+
+    arrayCandidatos = new Candidato[qtdElementos];
+
+    for (int i = 0; i < qtdElementos; i++) {
+      arrayCandidatos[i] = aux;
+      aux = aux.getProx();
+    }
+
+    quicksortNome(0, arrayCandidatos.length - 1);
+
+    System.out.println("Lista Ordenada por nome");
 
     for (int i = arrayCandidatos.length - 1; i > ((arrayCandidatos.length - 1) - edital.getQtdVagas()); i--) {
       if (i < 0) return;
@@ -140,19 +196,15 @@ public class ListaController implements ListaInterface {
                       arrayCandidatos[i].getAnoNascimento() + ", Nota: " + notaFormatada +
                       " } ");
     }
-
-
   }
 
-  @Override
-  public void ordenarPorNome() {
+  public static String formatarString(String texto, String mascara) throws ParseException {
+    MaskFormatter mf = new MaskFormatter(mascara);
+    mf.setValueContainsLiteralCharacters(false);
+    return mf.valueToString(texto);
   }
 
-  /**
-   * Método de particionamento que é o núcleo do algoritmo Quicksort.
-   * É a implementação utilizando o paradigma dividir para conquistar
-   */
-  int partition(int start, int end) {
+  private int particaoNota(int start, int end) {
     int i = start;
 
     for (int j = start; j < end; j++) {
@@ -167,44 +219,43 @@ public class ListaController implements ListaInterface {
     return i;
   }
 
-  /**
-   * Método para fazer a troca de dados entre duas posições no vetor
-   */
-  void swap(int i, int j) {
+  private int particaoNome(int start, int end) {
+    int i = start;
+
+    for (int j = start; j < end; j++) {
+
+      /* Elemento atual menor ou igual ao pivô? */
+      if (arrayCandidatos[j].getNome().compareTo(arrayCandidatos[end].getNome()) > 0) {
+        swap(i++, j);
+      }
+    }
+    swap(i, end);
+
+    return i;
+  }
+
+  private void swap(int i, int j) {
     Candidato aux = arrayCandidatos[i];
     arrayCandidatos[i] = arrayCandidatos[j];
     arrayCandidatos[j] = aux;
   }
 
-  /**
-   * Método privado que implementa o Quicksort recursivamente
-   */
-  void quicksort(int start, int end) {
+  private void quicksortNota(int start, int end) {
     if (start >= end) return;
 
-    int pivot = partition(start, end);
+    int pivot = particaoNota(start, end);
 
-    quicksort(start, pivot - 1);
-    quicksort(pivot + 1, end);
+    quicksortNota(start, pivot - 1);
+    quicksortNota(pivot + 1, end);
   }
 
-  @Override
-  public Boolean cpfJaExiste(String cpf, ListaController lista) {
-    Candidato candidatoAux = lista.getInicio();
+  private void quicksortNome(int start, int end) {
+    if (start >= end) return;
 
-    while (candidatoAux != null) {
-      if (candidatoAux.getCpf().equals(cpf)) return true;
+    int pivot = particaoNome(start, end);
 
-      candidatoAux = candidatoAux.getProx();
-    }
-
-    return false;
-  }
-
-  public static String formatarString(String texto, String mascara) throws ParseException {
-    MaskFormatter mf = new MaskFormatter(mascara);
-    mf.setValueContainsLiteralCharacters(false);
-    return mf.valueToString(texto);
+    quicksortNome(start, pivot - 1);
+    quicksortNome(pivot + 1, end);
   }
 
   public Candidato getInicio() {
@@ -214,5 +265,6 @@ public class ListaController implements ListaInterface {
   public Candidato getFim() {
     return fim;
   }
+
 
 }
