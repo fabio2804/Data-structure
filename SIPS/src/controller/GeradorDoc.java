@@ -6,36 +6,39 @@ import model.Edital;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.text.DecimalFormat;
 
 public class GeradorDoc {
 
-  public void gerarDoc(Edital edital, ListaController listaController) throws IOException {
-    FileWriter arquivo = new FileWriter("Edital2020.txt");
+  public void gerarDoc(Edital edital, Candidato[] arrayCandidatos) throws IOException {
+    FileWriter arquivo = new FileWriter(edital.getCurso() + "Edital.txt");
     PrintWriter gravarArq = new PrintWriter(arquivo);
-    Candidato candidato = listaController.getInicio();
-    int colocacao = 1;
 
     gravarArq.printf("EDITAL 2020\n");
-    gravarArq.printf("Faculdade: " + edital.getFaculdade() + ", Curso: " + edital.getCurso() + " Total de vagas: " + edital.getQtdVagas() + "\n");
+    gravarArq.printf("Faculdade: " + edital.getFaculdade() + ", Curso: " + edital.getCurso() + " Total de vagas: "
+        + edital.getQtdVagas() + "\n");
     gravarArq.printf("------------------------------------------------------------------------------------\n");
     gravarArq.printf("Alunos Aprovados\n");
 
-    do {
-      gravarArq.printf( colocacao + "° colocado: Nome: " + candidato.getNome() + ", CPF: " + candidato.getCpf() + ", Ano de nascimento: " +
-              candidato.getAnoNascimento() + ", Nota: " + candidato.getNota() + ".\n");
+    int pos = 1;
 
-      colocacao++;
-      candidato = candidato.getProx();
+    for (int i = arrayCandidatos.length - 1; i > ((arrayCandidatos.length - 1) - edital.getQtdVagas()); i--) {
+      if (i < 0) {
+        gravarArq.printf("-------------------------------------SIPS 2020--------------------------------------");
 
-      if (candidato.getProx() == null) {
-        gravarArq.printf( colocacao + "° colocado: Nome: " + candidato.getNome() + ", CPF: " + candidato.getCpf() + ", Ano de nascimento: " +
-                candidato.getAnoNascimento() + ", Nota: " + candidato.getNota() + ".\n");
+        arquivo.close();
 
+        return;
       }
-    }while (candidato.getProx() != null);
 
-    gravarArq.printf("-------------------------------------SIPS 2020--------------------------------------");
+      String notaFormatada = new DecimalFormat("##.##").format(arrayCandidatos[i].getNota());
 
-    arquivo.close();
+      gravarArq.printf(pos + "° colocado: Nome: " + arrayCandidatos[i].getNome() + ", CPF: "
+          + arrayCandidatos[i].getCpf() + ", Ano de nascimento: " + arrayCandidatos[i].getAnoNascimento() + ", Nota: "
+          + notaFormatada + ".\n");
+
+      pos++;
+
+    }
   }
 }

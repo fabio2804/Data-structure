@@ -2,29 +2,31 @@ package view;
 
 import controller.CandidatoController;
 import controller.EditalController;
+import controller.GeradorDoc;
 import controller.ListaController;
 import model.Candidato;
 import model.Edital;
 
+import java.io.IOException;
+
 import javax.swing.JOptionPane;
 
 public class Main {
-  public static void main(String[] args) {
+  public static void main(String[] args) throws IOException {
     int opc = 0;
     ListaController listaController = new ListaController();
     CandidatoController candidatoController = new CandidatoController();
     EditalController editalController = new EditalController();
+    GeradorDoc geradorDoc = new GeradorDoc();
     Edital edital = null;
 
     do {
       try {
-        opc = Integer.parseInt(
-                JOptionPane.showInputDialog(
-                        "Menu de opções\n1- Criar edital\n2- Criar candidato\n3- Verificar " +
-                                "lista vazia\n4- Remover candidato por CPF\n5- Mostrar candidatos por nome\n6- " +
-                                "Mostrar candidatos aprovados\n7- Mostrar lista\n8- Gerar " +
-                                "notas\n0- Finalizar " +
-                                "programa"));
+        opc = Integer
+            .parseInt(JOptionPane.showInputDialog("Menu de opções\n1- Criar edital\n2- Criar candidato\n3- Verificar "
+                + "lista vazia\n4- Remover candidato por CPF\n5- Mostrar candidatos por nome\n6- "
+                + "Mostrar candidatos aprovados\n7- Mostrar lista\n8- Gerar " + "notas\n9- Gerar txt\n0- Finalizar "
+                + "programa"));
 
         switch (opc) {
           case 1:
@@ -41,7 +43,8 @@ public class Main {
 
             Candidato novoCandidato = candidatoController.criarCandidato();
 
-            if (novoCandidato == null) break;
+            if (novoCandidato == null)
+              break;
 
             if (listaController.cpfJaExiste(novoCandidato.getCpf(), listaController)) {
               JOptionPane.showMessageDialog(null, "Candidato com este CPF já cadastrado!");
@@ -60,7 +63,8 @@ public class Main {
 
             if (listaController.verificarVazia())
               JOptionPane.showMessageDialog(null, "A lista está vazia!");
-            else JOptionPane.showMessageDialog(null, "A lista não está vazia");
+            else
+              JOptionPane.showMessageDialog(null, "A lista não está vazia");
             break;
 
           case 4:
@@ -71,8 +75,7 @@ public class Main {
 
             String cpf = JOptionPane.showInputDialog("Digite o CPF a ser removido:");
             listaController.removerPorCpf(cpf, listaController.getInicio());
-            JOptionPane.showMessageDialog(null,
-                    "O candidato do CPF: " + cpf + " foi removido da lista.");
+            JOptionPane.showMessageDialog(null, "O candidato do CPF: " + cpf + " foi removido da lista.");
             break;
 
           case 5:
@@ -95,7 +98,7 @@ public class Main {
             System.out.println("[");
             listaController.mostrarCandidatosAprovados(edital, listaController, listaController.getInicio());
             System.out.println("]");
-            JOptionPane.showMessageDialog(null,"Candidatos aprovados no console");
+            JOptionPane.showMessageDialog(null, "Candidatos aprovados no console");
             break;
 
           case 7:
@@ -108,6 +111,10 @@ public class Main {
           case 8:
             candidatoController.gerarNotas(listaController.getInicio());
             JOptionPane.showMessageDialog(null, "As notas dos candidatos foram geradas!");
+            break;
+
+          case 9:
+            geradorDoc.gerarDoc(edital, listaController.getArray());
             break;
 
           case 0:
