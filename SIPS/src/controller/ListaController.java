@@ -93,8 +93,8 @@ public class ListaController implements ListaInterface {
       e.printStackTrace();
     }
 
-    System.out.println("   { Nome: " + aux.getNome() + ", CPF: " + cpfFormatado + ", Ano de nascimento: " +
-            aux.getAnoNascimento() + ", Nota: " + notaFormatada + " } ");
+    System.out.println("   { Nome: " + aux.getNome() + ", CPF: " + cpfFormatado + ", Ano de nascimento: "
+        + aux.getAnoNascimento() + ", Nota: " + notaFormatada + " } ");
 
     if (aux.getProx() == null) {
       return null;
@@ -108,7 +108,8 @@ public class ListaController implements ListaInterface {
     Candidato candidatoAux = lista.getInicio();
 
     while (candidatoAux != null) {
-      if (candidatoAux.getCpf().equals(cpf)) return true;
+      if (candidatoAux.getCpf().equals(cpf))
+        return true;
 
       candidatoAux = candidatoAux.getProx();
     }
@@ -137,7 +138,8 @@ public class ListaController implements ListaInterface {
     int pos = 1;
 
     for (int i = arrayCandidatos.length - 1; i > ((arrayCandidatos.length - 1) - edital.getQtdVagas()); i--) {
-      if (i < 0) return;
+      if (i < 0)
+        return;
 
       String notaFormatada = new DecimalFormat("##.##").format(arrayCandidatos[i].getNota());
 
@@ -149,11 +151,8 @@ public class ListaController implements ListaInterface {
         e.printStackTrace();
       }
 
-      System.out.println(
-              "   " + pos + "°  { Nome: " + arrayCandidatos[i].getNome() + ", CPF: " + cpfFormatado +
-                      ", Ano de nascimento: " +
-                      arrayCandidatos[i].getAnoNascimento() + ", Nota: " + notaFormatada +
-                      " } ");
+      System.out.println("   " + pos + "°  { Nome: " + arrayCandidatos[i].getNome() + ", CPF: " + cpfFormatado
+          + ", Ano de nascimento: " + arrayCandidatos[i].getAnoNascimento() + ", Nota: " + notaFormatada + " } ");
 
       pos++;
     }
@@ -178,7 +177,8 @@ public class ListaController implements ListaInterface {
     System.out.println("Lista Ordenada por nome");
 
     for (int i = arrayCandidatos.length - 1; i > ((arrayCandidatos.length - 1) - edital.getQtdVagas()); i--) {
-      if (i < 0) return;
+      if (i < 0)
+        return;
 
       String notaFormatada = new DecimalFormat("##.##").format(arrayCandidatos[i].getNota());
 
@@ -190,11 +190,8 @@ public class ListaController implements ListaInterface {
         e.printStackTrace();
       }
 
-      System.out.println(
-              "   { Nome: " + arrayCandidatos[i].getNome() + ", CPF: " + cpfFormatado +
-                      ", Ano de nascimento: " +
-                      arrayCandidatos[i].getAnoNascimento() + ", Nota: " + notaFormatada +
-                      " } ");
+      System.out.println("   { Nome: " + arrayCandidatos[i].getNome() + ", CPF: " + cpfFormatado
+          + ", Ano de nascimento: " + arrayCandidatos[i].getAnoNascimento() + ", Nota: " + notaFormatada + " } ");
     }
   }
 
@@ -241,7 +238,8 @@ public class ListaController implements ListaInterface {
   }
 
   private void quicksortNota(int start, int end) {
-    if (start >= end) return;
+    if (start >= end)
+      return;
 
     int pivot = particaoNota(start, end);
 
@@ -250,7 +248,8 @@ public class ListaController implements ListaInterface {
   }
 
   private void quicksortNome(int start, int end) {
-    if (start >= end) return;
+    if (start >= end)
+      return;
 
     int pivot = particaoNome(start, end);
 
@@ -266,5 +265,8 @@ public class ListaController implements ListaInterface {
     return fim;
   }
 
+  public Candidato[] getArray() {
+    return arrayCandidatos;
+  }
 
 }
