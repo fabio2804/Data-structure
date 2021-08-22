@@ -14,5 +14,14 @@ public class Main {
     String str = JOptionPane.showInputDialog("Digite uma palavra para espelhar: ");
     JOptionPane.showMessageDialog(null, recursividadeController.espelhar(str, str.length() - 1));
 
+    int n = Integer.parseInt(JOptionPane.showInputDialog("Digite um número limite para a soma de seus antecessores: "));
+    JOptionPane.showMessageDialog(null,
+            "Soma dos " + n + " primeiros números igual a: " + recursividadeController.somar(n));
+
+    n = Integer.parseInt(JOptionPane.showInputDialog("Digite um número de 0 a 999999"));
+    int y = Integer.parseInt(JOptionPane.showInputDialog("Digite o número a ser identificado: "));
+
+    JOptionPane.showMessageDialog(null, recursividadeController.findN(n, y));
+
   }
 }
